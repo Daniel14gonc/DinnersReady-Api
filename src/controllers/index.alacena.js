@@ -14,6 +14,7 @@ const getAlacena = async (req,res)=>{
     try{
         const id = req.params.id
         const query = 'SELECT nombre_ingrediente FROM ingredientes_usuario WHERE id_usuario = $1'
+        console.log('asereje')
         const response = await pool.query(query, [id])
         res.json(response.rows)
     }catch (e){
