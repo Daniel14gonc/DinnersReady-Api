@@ -12,7 +12,7 @@ const pool = new Pool ({
 
 const getUsers = async (req,res) => {
     try{
-        const response = await pool.query('Select * from usuarios order by id')
+        const response = await pool.query('Select * from usuarios')
         res.status(200).json(response.rows)
     }catch (e){
         console.log("ERROR")
@@ -83,7 +83,7 @@ const passwordCheck = async (req,res) =>{
             completado: false
         })
     }else{
-        const hashed = response.rows[0].contraseña
+        const hashed = response.rows[0].passw
         const prn = await bcrypt.compare(pass,hashed)
         if(prn){
             res.json({

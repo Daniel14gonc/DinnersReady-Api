@@ -8,8 +8,9 @@ const {getUsers,
     passwordCheck}= require("../controllers/index.usuario")
 
 const {getAlacena}= require("../controllers/index.alacena")
+const {getCategorias,getIngredientesPorCategorias}= require("../controllers/index.ingredientes")
 
-// http://localhost:5000/users/3
+// http://localhost:5000/
 router.get('/users',getUsers)
 router.get('/login/:pass/:correo',passwordCheck)
 router.get('/users/:id',getUserByID)
@@ -17,4 +18,7 @@ router.post('/users',createUser)
 router.delete('/users/:id',delUser)
 router.put('/users/:id',updateUser)
 router.get('/alacena',getAlacena)
+router.get('/categorias',getCategorias)
+router.get('/ingredientes/:categoria',getIngredientesPorCategorias)
+
 module.exports = router
