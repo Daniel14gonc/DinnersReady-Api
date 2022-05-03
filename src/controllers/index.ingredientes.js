@@ -45,8 +45,43 @@ const addIngrediente = async(req,res)=>{
   })
 }
 
+const getIngredientesByUsuario = async (req, res) =>{
+  try{
+    const usuario = req.params.correo
+    const response = await pool.query('SELECT nombre_ingrediente FROM ingredientes_usuario WHERE correo_usuario = $1',[usuario])
+    console.log(response)
+    res.json(response.rows)
+  }catch (e){
+    console.log("ERROR")
+
+      res.json({
+          message:'Error',
+          error:e
+      })
+  }
+  
+}
+
+const deleteIngredientByUsuario = async (req, res) =>{
+  try{
+    const correo = req.params.correo
+    const ingrediente = req.params.ingrediente
+    const response = await pool.query('DELETE FROM ingredientes_usuario WHERE correo_usuario = $1 AND nombre_ingrediente = $2',[correo, ingrediente])
+    res.json(`${ingrediente} eliminado de Alacena de ${correo}`) 
+  }catch (e){
+    console.log("ERROR")
+
+      res.json({
+          message:'Error',
+          error:e
+      })
+  }
+}
+
 module.exports = {
   getCategorias,
   getIngredientesPorCategorias,
-  addIngrediente
+  addIngrediente,
+  getIngredientesByUsuario,
+  deleteIngredientByUsuario
 }
