@@ -20,7 +20,7 @@ router.put('/users/:id',updateUser)
 router.post('/ingrediente',addIngrediente)
 router.get('/alacena',getAlacena)
 router.get('/categorias',getCategorias)
-router.get('/ingredientes/:categoria',getIngredientesPorCategorias)
+router.get('/ingredientes/:categoria/:correo',getIngredientesPorCategorias)
 
 
 module.exports = router

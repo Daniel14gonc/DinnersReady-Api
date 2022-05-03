@@ -24,17 +24,12 @@ const getCategorias = async (req,res)=>{
 }
 
 const getIngredientesPorCategorias = async (req, res)=>{
-  try{
+  
       const categoria = req.params.categoria
-      const response = await pool.query('SELECT nombre FROM ingredientes where  categoria= $1 ',[categoria])
+      const correo = req.params.correo
+      const response = await pool.query('select nombre from ingredientes where categoria = $1 except (select nombre_ingrediente  from ingredientes_usuario where correo_usuario = $2); ',[categoria,correo])
       res.json(response.rows)
-  }catch (e){
-      console.log("ERROR")
-
-      res.json({
-          message:'Error'
-      })
-  }
+  
 }
 
 const addIngrediente = async(req,res)=>{
