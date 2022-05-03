@@ -36,7 +36,22 @@ const getIngredientesPorCategorias = async (req, res)=>{
       })
   }
 }
+
+const addIngrediente = async(req,res)=>{
+  const {usuario,ingrediente} = req.body
+  console.log(usuario,ingrediente)
+  const response = await pool.query('insert into ingredientes_usuario values($1,$2)',[usuario,ingrediente])
+  console.log(response)
+  res.json({
+       message:'Agregado el ingrediente',
+       body:{
+           user:{usuario,ingrediente}
+       },
+  })
+}
+
 module.exports = {
   getCategorias,
-  getIngredientesPorCategorias
+  getIngredientesPorCategorias,
+  addIngrediente
 }
