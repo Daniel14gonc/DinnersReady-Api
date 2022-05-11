@@ -11,7 +11,7 @@ const pool = new Pool ({
 const getCategorias = async (req,res)=>{
   try{
       
-      const response = await pool.query('select distinct categoria from ingredientes')
+      const response = await pool.query('select distinct categoria from ingredientes order by categoria asc')
       res.json(response.rows)
       console.log(response.rows)
   }catch (e){
