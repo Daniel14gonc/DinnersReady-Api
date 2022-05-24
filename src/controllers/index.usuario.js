@@ -26,8 +26,8 @@ const getUsers = async (req,res) => {
 
 const getUserByID = async (req,res)=>{
     try{
-        const id = req.params.id
-        const response = await pool.query('SELECT * FROM usuarios WHERE id = $1',[id])
+        const id = req.params.correo
+        const response = await pool.query('SELECT nombre, descripcion FROM usuarios WHERE correo = $1',[id])
         res.json(response.rows)
     }catch (e){
         console.log("ERROR")

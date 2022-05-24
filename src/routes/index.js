@@ -14,7 +14,7 @@ const {getAllRecetas, getRecetabyId}= require("../controllers/index.recetas")
 // http://localhost:5000/
 router.get('/users',getUsers)
 router.get('/login/:pass/:correo',passwordCheck)
-router.get('/users/:id',getUserByID)
+router.get('/users/:correo',getUserByID)
 router.post('/users',createUser)
 router.delete('/users/:id',delUser)
 router.put('/users/:id',updateUser)
