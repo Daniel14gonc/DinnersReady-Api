@@ -40,7 +40,25 @@ const getRecetabyId = async (req, res) => {
     }
 }
 
+
+
+const getSaved = async (req, res) =>{
+    try{
+        const correo = req.params.correo
+        const response = await pool.query('select r.id, r.nombre, r.descripcion, r.dificultad, r.estrellas, r.autor, r.imagen from recetas r inner join guardado g on g.id_receta = r.id where correo_usuario = $1',[correo])
+        res.json(response.rows)
+    }catch (e){
+        console.log("ERROR")
+
+        res.json({
+            message:'Error',
+            error:e
+        })
+    }
+}
+
 module.exports = {
     getAllRecetas,
-    getRecetabyId
+    getRecetabyId,
+    getSaved
 }
