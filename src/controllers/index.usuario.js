@@ -109,9 +109,9 @@ const delUser = async(req,res) =>{
 const Save = async(req,res) => {
     const {correo,id} = req.body
     const hay = await pool.query('SELECT * FROM guardado WHERE id_receta = $1 and correo_usuario=$2',[id,correo])
-    console.log(hay)
+    console.log(hay.rows)
     if(hay.rowCount === 0){
-        const response = await pool.query('Insert into guardado values($1 ,$2)',[id,correo])
+        const response = await pool.query('Insert into guardado(id_receta,correo_usuario) values($1 ,$2)',[id,correo])
         res.json(`Relacion ${req.params.id} Agregado a Saved`)
         
     }else{
