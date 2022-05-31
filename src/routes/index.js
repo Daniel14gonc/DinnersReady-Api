@@ -5,6 +5,7 @@ const {getUsers,
     getUserByID,
     delUser,
     updateUser,
+    Save,
     passwordCheck}= require("../controllers/index.usuario")
 
 const {getAlacena}= require("../controllers/index.alacena")
@@ -26,6 +27,6 @@ router.get('/ingredientes/:correo', getIngredientesByUsuario)
 router.delete('/ingredientes/:correo/:ingrediente', deleteIngredientByUsuario)
 router.get('/recetas', getAllRecetas)
 router.get('/recetas/:id', getRecetabyId)
-
+router.put('/save/', Save)
 
 module.exports = router
