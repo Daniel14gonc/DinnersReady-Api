@@ -40,6 +40,19 @@ const getRecetabyId = async (req, res) => {
     }
 }
 
+const getRecetacont = async (req, res) =>{
+    try{
+        const query = 'select max(id) from recetas r ;'
+        const response = await pool.query(query)
+        res.json(response.rows)
+    }catch (e){
+        console.log("ERROR")
+
+        res.json({
+            message:'Error'
+        })
+    }
+}
 
 
 const getSaved = async (req, res) =>{
@@ -60,5 +73,6 @@ const getSaved = async (req, res) =>{
 module.exports = {
     getAllRecetas,
     getRecetabyId,
-    getSaved
+    getSaved,
+    getRecetacont
 }
