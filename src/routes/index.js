@@ -10,7 +10,7 @@ const {getUsers,
 
 const {getAlacena}= require("../controllers/index.alacena")
 const {getCategorias,getIngredientesPorCategorias, addIngrediente, getIngredientesByUsuario, deleteIngredientByUsuario}= require("../controllers/index.ingredientes")
-const {getAllRecetas, getRecetabyId, getSaved, getRecetacont}= require("../controllers/index.recetas")
+const {getAllRecetas, getRecetabyId, getSaved, getRecetacont, getRecomendacionRecetaAlacena}= require("../controllers/index.recetas")
 
 // http://localhost:5000/
 router.get('/users',getUsers)
@@ -30,5 +30,6 @@ router.get('/recetas/:id', getRecetabyId)
 router.put('/save/', Save)
 router.get('/save/:correo', getSaved)
 router.get('/contador/', getRecetacont)
+router.get('/recomendacionA/:correo', getRecomendacionRecetaAlacena)
 
 module.exports = router

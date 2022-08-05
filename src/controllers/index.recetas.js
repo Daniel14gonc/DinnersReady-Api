@@ -40,6 +40,68 @@ const getRecetabyId = async (req, res) => {
     }
 }
 
+const getRecomendacionRecetaAlacena = async (req, res) => {
+    try{
+
+        const usuario = req.params.correo
+        const response = await pool.query('SELECT nombre_ingrediente FROM ingredientes_usuario WHERE correo_usuario = $1',[usuario])
+        
+        const query = 'SELECT * FROM ingredientes_receta order by id_receta asc;'
+        const response2 = await pool.query(query)
+
+        recetas = response2.rows
+        ingredientes = response.rows
+
+        recomendacion = []
+        nombre_ingrediente = []
+
+        ingredientes.map((ingrediente) => {
+             nombre_ingrediente.push(ingrediente.nombre_ingrediente)
+        })
+
+        var obj = recetas.reduce(function(r, e) {
+            if (!r[e.id_receta]) r[e.id_receta] = e
+            else r[e.id_receta] = Array.isArray(r[e.id_receta]) ? r[e.id_receta].concat(e) : [r[e.id_receta]].concat(e)
+            return r;
+          }, {})
+        
+        var ings_receta = Object.keys(obj).map(e => obj[e])
+
+        final = {}
+        for (let i = 0; i < ings_receta.length; i++){
+            
+            temp = []
+            ings_receta[i].map((receta) => {
+                if(nombre_ingrediente.includes(receta.nombre_ingrediente)){
+                    temp.push(true)
+                }else{
+                    temp.push(false)
+                }
+            })
+
+            if(!temp.includes(false)){
+                let object = ings_receta[i]
+                lista = []
+                object.map((o) => {
+                    if(!lista.includes(o.id_receta)){
+                        lista.push(o.id_receta)
+                    }
+                })
+                final = {...final,  id : lista }
+            }
+        }
+
+        res.json(final)
+
+    }catch (e){
+        console.log("ERROR")
+
+        res.json({
+            message:'Error'
+        })
+    }
+}
+
 const getRecetacont = async (req, res) =>{
     try{
         const query = 'select max(id) from recetas r ;'
@@ -74,5 +136,6 @@ module.exports = {
     getAllRecetas,
     getRecetabyId,
     getSaved,
-    getRecetacont
+    getRecetacont,
+    getRecomendacionRecetaAlacena
 }
