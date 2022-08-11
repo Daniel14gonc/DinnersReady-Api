@@ -67,7 +67,7 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
         
         var ings_receta = Object.keys(obj).map(e => obj[e])
 
-        final = {}
+        final = []
         for (let i = 0; i < ings_receta.length; i++){
             
             temp = []
@@ -87,11 +87,13 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
                         lista.push(o.id_receta)
                     }
                 })
-                final = {...final,  id : lista }
+                console.log(lista)
+                final = [...final, ...lista]
+                console.log(final)
             }
         }
 
-        res.json(final)
+        res.json({final})
 
     }catch (e){
         console.log("ERROR")
