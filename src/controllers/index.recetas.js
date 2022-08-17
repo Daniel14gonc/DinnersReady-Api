@@ -118,6 +118,19 @@ const getRecetacont = async (req, res) =>{
     }
 }
 
+const getRecetaCreada = async (req, res) => {
+    try{
+        const usuario = req.params.correo
+        const response = await pool.query('SELECT * FROM recetas WHERE autor = $1',[usuario])
+        res.json(response.rows)
+    }catch (e){
+        console.log("ERROR")
+        res.json({
+            message:'Error'
+        })
+    }
+}
+
 
 const getSaved = async (req, res) =>{
     try{
@@ -134,10 +147,12 @@ const getSaved = async (req, res) =>{
     }
 }
 
+
 module.exports = {
     getAllRecetas,
     getRecetabyId,
     getSaved,
     getRecetacont,
-    getRecomendacionRecetaAlacena
+    getRecomendacionRecetaAlacena,
+    getRecetaCreada
 }
