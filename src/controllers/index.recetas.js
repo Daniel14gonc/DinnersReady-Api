@@ -46,7 +46,7 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
         const usuario = req.params.correo
         const response = await pool.query('SELECT nombre_ingrediente FROM ingredientes_usuario WHERE correo_usuario = $1',[usuario])
         
-        const query = 'SELECT * FROM ingredientes_receta order by id_receta asc;'
+        const query = 'SELECT id_receta, nombre_ingrediente FROM ingredientes_receta order by id_receta asc;'
         const response2 = await pool.query(query)
 
         recetas = response2.rows
