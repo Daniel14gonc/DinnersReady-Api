@@ -62,6 +62,23 @@ const getIngredientesByUsuario = async (req, res) =>{
   
 }
 
+const getIngredientesByReceta = async (req, res) =>{
+  try{
+    const receta = req.params.receta
+    const response = await pool.query('select nombre_ingrediente, cantidad from ingredientes_receta ir where ir.id_receta = $1',[receta])
+    console.log(response)
+    res.json(response.rows)
+  }catch (e){
+    console.log("ERROR")
+
+      res.json({
+          message:'Error',
+          error:e
+      })
+  }
+  
+}
+
 const deleteIngredientByUsuario = async (req, res) =>{
   try{
     const correo = req.params.correo
@@ -83,5 +100,6 @@ module.exports = {
   getIngredientesPorCategorias,
   addIngrediente,
   getIngredientesByUsuario,
+  getIngredientesByReceta,
   deleteIngredientByUsuario
 }
