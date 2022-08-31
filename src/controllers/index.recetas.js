@@ -48,7 +48,8 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
         
         const query = 'SELECT id_receta, nombre_ingrediente FROM ingredientes_receta order by id_receta asc;'
         const response2 = await pool.query(query)
-
+        
+        console.log('si')
         recetas = response2.rows
         ingredientes = response.rows
 
@@ -59,11 +60,15 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
              nombre_ingrediente.push(ingrediente.nombre_ingrediente)
         })
 
+        console.log(nombre_ingrediente)
+
         var obj = recetas.reduce(function(r, e) {
             if (!r[e.id_receta]) r[e.id_receta] = e
             else r[e.id_receta] = Array.isArray(r[e.id_receta]) ? r[e.id_receta].concat(e) : [r[e.id_receta]].concat(e)
             return r;
           }, {})
+
+        console.log(obj)
         
         var ings_receta = Object.keys(obj).map(e => obj[e])
 
@@ -71,25 +76,27 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
         for (let i = 0; i < ings_receta.length; i++){
             
             temp = []
-            ings_receta[i].map((receta) => {
-                if(nombre_ingrediente.includes(receta.nombre_ingrediente)){
-                    temp.push(true)
-                }else{
-                    temp.push(false)
-                }
-            })
-
-            if(!temp.includes(false)){
-                let object = ings_receta[i]
-                lista = []
-                object.map((o) => {
-                    if(!lista.includes(o.id_receta)){
-                        lista.push(o.id_receta)
+            if (Array.isArray(ings_receta[i])) {
+                ings_receta[i].map((receta) => {
+                    if(nombre_ingrediente.includes(receta.nombre_ingrediente)){
+                        temp.push(true)
+                    }else{
+                        temp.push(false)
                     }
                 })
-                console.log(lista)
-                final = [...final, ...lista]
-                console.log(final)
+    
+                if(!temp.includes(false)){
+                    let object = ings_receta[i]
+                    lista = []
+                    object.map((o) => {
+                        if(!lista.includes(o.id_receta)){
+                            lista.push(o.id_receta)
+                        }
+                    })
+                    console.log(lista)
+                    final = [...final, ...lista]
+                    console.log(final)
+                }
             }
         }
 
@@ -97,7 +104,7 @@ const getRecomendacionRecetaAlacena = async (req, res) => {
 
     }catch (e){
         console.log("ERROR")
-
+        console.log(e)
         res.json({
             message:'Error'
         })
@@ -147,6 +154,29 @@ const getSaved = async (req, res) =>{
     }
 }
 
+const createReceta = async (req, res) =>{
+    try{
+        const {nombre, descripcion, dificultad, estrellas, autor, link, ingredientes} = req.body
+        console.log(req.body)
+        const response = await pool.query('insert into recetas(nombre,descripcion,dificultad,estrellas, autor, inmagen) values($1,$2,$3,$4,$5,$6)',[nombre, descripcion, dificultad, estrellas, autor, link])
+        const response2 = await pool.query('SELECT id FROM recetas WHERE nombre = $1 AND autor = $2 AND descripcion = $3', [nombre, autor, descripcion])
+        const id = response2.rows[0].id
+        ingredientes.map( async(element) => {
+            await pool.query('INSERT INTO ingredientes_receta values ($1, $2, $3)', [id, element.ing, element.cantidad])
+        })
+        res.json({
+            message: 'receta agregada'
+        })
+    }catch (e){
+        console.log("ERROR")
+
+        res.json({
+            message:'Error',
+            error:e
+        })
+    }
+}
+
 
 module.exports = {
     getAllRecetas,
@@ -154,5 +184,6 @@ module.exports = {
     getSaved,
     getRecetacont,
     getRecomendacionRecetaAlacena,
-    getRecetaCreada
+    getRecetaCreada,
+    createReceta
 }
