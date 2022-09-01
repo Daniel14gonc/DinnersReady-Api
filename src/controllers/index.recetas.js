@@ -177,6 +177,25 @@ const createReceta = async (req, res) =>{
     }
 }
 
+const getIngredientesByReceta = async (req, res) =>{
+    try{
+
+      const receta = req.params.receta
+      const response = await pool.query('select ir.nombre_ingrediente, ir.cantidad from ingredientes_receta ir where ir.id_receta = $1',[receta])
+
+      res.json(response.rows)
+    }catch (e){
+      console.log("ERROR")
+  
+        res.json({
+            message:'Error',
+            error:e
+        })
+    }
+    
+  }
+  
+
 
 module.exports = {
     getAllRecetas,
@@ -185,5 +204,6 @@ module.exports = {
     getRecetacont,
     getRecomendacionRecetaAlacena,
     getRecetaCreada,
+    getIngredientesByReceta,
     createReceta
 }
