@@ -22,4 +22,5 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-          script: sh ~/DinnersreadyAPICONFIG/deploy.sh
+          run: PATH/deploy.sh
+          shell: bash
