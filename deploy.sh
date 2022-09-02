@@ -4,3 +4,4 @@ sudo npm install
 
 echo "Run new PM2 action"
 whereis pm2
+pm2 list
