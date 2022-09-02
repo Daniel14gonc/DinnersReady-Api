@@ -8,4 +8,4 @@ export NVM_DIR=~/.nvm
 source ~/.nvm/nvm.sh
 
 echo "Run new PM2 action"
-npm deploy
+npm run deploy
