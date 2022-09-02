@@ -24,4 +24,4 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
       
       - name: Build project
-        run: sh ./deploy.sh
+        run: bash ./deploy.sh
