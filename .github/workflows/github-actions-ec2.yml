@@ -25,3 +25,6 @@ jobs:
       
       - name: Build project
         run: source ./deploy.sh
+
+      - name: Pm2 restart
+        run: pm2 restart all
