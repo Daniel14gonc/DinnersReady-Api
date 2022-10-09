@@ -13,7 +13,7 @@ const {getCategorias,getIngredientesPorCategorias, addIngrediente, getIngredient
 const {getAllRecetas, getRecetabyId, getSaved, getRecetacont, getRecomendacionRecetaAlacena, getRecetaCreada, createReceta,getIngredientesByReceta}= require("../controllers/index.recetas")
 
 // http://localhost:5000/
-router.get('/users',getUsers)
+// router.get('/users',getUsers)
 router.get('/login/:pass/:correo',passwordCheck)
 router.get('/users/:correo',getUserByID)
 router.post('/users',createUser)
