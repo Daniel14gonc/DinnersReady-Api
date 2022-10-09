@@ -4,4 +4,4 @@ sudo npm install
 
 echo "Run new PM2 action"
 npm install pm2@latest -g
-pm2 restart 4
+pm2 list
