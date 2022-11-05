@@ -102,8 +102,8 @@ const passwordCheck = async (req,res) =>{
 
 
 const delUser = async(req,res) =>{
-    const response = await pool.query('DELETE FROM usuarios where id=$1',[req.params.id])
-    res.json(`User ${req.params.id} eliminado de BD`)
+    const response = await pool.query('DELETE FROM usuarios where correo=$1',[req.params.correo])
+    res.json(`User ${req.params.correo} eliminado de BD`)
 }
 
 const Save = async(req,res) => {
