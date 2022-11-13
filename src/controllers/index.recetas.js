@@ -158,9 +158,10 @@ const createReceta = async (req, res) =>{
     try{
         const {nombre, descripcion, dificultad, estrellas, autor, link, ingredientes} = req.body
         console.log('hola')
-        const response = await pool.query('insert into recetas(nombre,descripcion,dificultad,estrellas, autor, inmagen) values($1,$2,$3,$4,$5,$6)',[nombre, descripcion, dificultad, estrellas, autor, link])
+        const response = await pool.query('insert into recetas(nombre,descripcion,dificultad,estrellas, autor, imagen) values($1,$2,$3,$4,$5,$6)',[nombre, descripcion, dificultad, estrellas, autor, link])
         const response2 = await pool.query('SELECT id FROM recetas WHERE nombre = $1 AND autor = $2 AND descripcion = $3', [nombre, autor, descripcion])
         const id = response2.rows[0].id
+        console.log(req.body)
         ingredientes.map( async(element) => {
             await pool.query('INSERT INTO ingredientes_receta values ($1, $2, $3)', [id, element.ing, element.cantidad])
         })
